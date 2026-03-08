@@ -45,10 +45,10 @@
             <tr><th>Command</th><th>Description</th><th>Result</th></tr>
           </thead>
           <tbody>
-            <tr><td><code>npx portly</code></td><td>Auto-detect a running local server from common ports.</td><td>Starts tunnel and prints public URL.</td></tr>
-            <tr><td><code>npx portly 3000</code></td><td>Use manual port selection.</td><td>Bypasses scan, tunnels explicit port.</td></tr>
-            <tr><td><code>npx portly 3000 --name samin</code></td><td>Use manual port and custom subdomain.</td><td>Requests named tunnel from provider.</td></tr>
-            <tr><td><code>npx portly --host portly.dev</code></td><td>Customize display host branding.</td><td>Printed URL follows brand domain.</td></tr>
+            <tr><td><code>npx @solez-ai/portly</code></td><td>Auto-detect a running local server from common ports.</td><td>Starts tunnel and prints public URL.</td></tr>
+            <tr><td><code>npx @solez-ai/portly 3000</code></td><td>Use manual port selection.</td><td>Bypasses scan, tunnels explicit port.</td></tr>
+            <tr><td><code>npx @solez-ai/portly 3000 --name samin</code></td><td>Use manual port and custom subdomain.</td><td>Requests named tunnel from provider.</td></tr>
+            <tr><td><code>npx @solez-ai/portly --host yourdomain.com</code></td><td>Customize display host branding.</td><td>Use only with wildcard DNS/routing support.</td></tr>
           </tbody>
         </table>
       </div>
@@ -98,21 +98,30 @@
       <h2>Domain and Cloudflare Setup</h2>
       <div class="timeline">
         <article class="card">
-          <h3>1. Register or add your domain to Cloudflare</h3>
-          <p>Use a domain such as <code>portly.dev</code>, then delegate nameservers to Cloudflare.</p>
+          <h3>1. Use your free Pages domain</h3>
+          <p>Your live docs are hosted at <code>https://portly-live.pages.dev</code>.</p>
         </article>
         <article class="card">
-          <h3>2. Connect docs site deployment</h3>
-          <p>Deploy <code>docs-site/</code> on Vercel and connect your custom domain in Vercel project settings.</p>
+          <h3>2. Deploy docs site on Cloudflare Pages</h3>
+          <p>Use <code>docs-site</code> as the build output directory in Cloudflare Pages settings.</p>
         </article>
         <article class="card">
-          <h3>3. Configure wildcard DNS for branded links</h3>
-          <p>Create wildcard records like <code>*.portly.dev</code> based on your tunnel provider routing strategy.</p>
+          <h3>3. Wildcard links require custom tunnel infra</h3>
+          <p>Only configure wildcard DNS (for example <code>*.yourdomain.com</code>) when you run custom tunnel routing.</p>
         </article>
         <article class="card">
           <h3>4. Enforce HTTPS</h3>
-          <p>Enable Full (strict) TLS mode in Cloudflare and verify certificates on your endpoint.</p>
+          <p>Enable Full (strict) TLS mode in Cloudflare and verify certificate status in the dashboard.</p>
         </article>
+      </div>
+    </section>
+
+    <section class="section reveal">
+      <h2>HTTPS / Not Secure Troubleshooting</h2>
+      <div class="card">
+        <p>If you see Not Secure, verify that you are on <code>https://portly-live.pages.dev</code> exactly.</p>
+        <p>Cloudflare Pages does not automatically provide wildcard SSL for <code>*.portly-live.pages.dev</code>.</p>
+        <p>For tunnel links, use the provider URL (for example <code>https://name.loca.lt</code>) unless you run custom wildcard infrastructure.</p>
       </div>
     </section>
   </main>

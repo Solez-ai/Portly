@@ -10,7 +10,7 @@ Portly is a zero-config localhost sharing CLI.
 Run one command and get a public HTTPS URL for your running dev server.
 
 ```bash
-npx portly
+npx @solez-ai/portly
 ```
 
 ## ◆ Core Promise
@@ -22,8 +22,8 @@ npx portly
 ## ◆ Features
 
 - Automatic port detection (`3000`, `5173`, `8080`, `8000`, `4200`, `4000`, `5000`)
-- Manual port override (`npx portly 3000`)
-- Named sessions (`npx portly 3000 --name samin`)
+- Manual port override (`npx @solez-ai/portly 3000`)
+- Named sessions (`npx @solez-ai/portly 3000 --name samin`)
 - Clean CLI output with status states
 - QR code generation for mobile opening
 - Session auto timeout (2 hours)
@@ -41,7 +41,7 @@ npx portly
 Tunnel endpoint (provider): https://quiet-fox.loca.lt
 
 🌍 Public URL
-https://quiet-fox.portly.dev
+https://quiet-fox.loca.lt
 
 Scan with your phone:
 [QR CODE]
@@ -54,13 +54,13 @@ Press CTRL+C to stop
 ### Use without installing
 
 ```bash
-npx portly
+npx @solez-ai/portly
 ```
 
 ### Global install
 
 ```bash
-npm install -g portly
+npm install -g @solez-ai/portly
 portly
 ```
 
@@ -68,16 +68,16 @@ portly
 
 ```bash
 # Auto-detect local server
-npx portly
+npx @solez-ai/portly
 
 # Manual port
-npx portly 3000
+npx @solez-ai/portly 3000
 
 # Manual port + named tunnel
-npx portly 3000 --name samin
+npx @solez-ai/portly 3000 --name samin
 
 # Branded display host
-npx portly --host portly.dev
+npx @solez-ai/portly --host yourdomain.com
 ```
 
 ## ◆ Project Structure
@@ -138,11 +138,13 @@ Branding is wired to `logo.png` across nav + favicon + identity sections.
 
 ## ◆ Cloudflare + Domain Setup
 
-For branded links like `https://cool-cat.portly.dev`:
+Docs website: `https://portly-live.pages.dev`
+
+For branded links like `https://cool-cat.yourdomain.com`:
 
 1. Add your domain to Cloudflare.
-2. Connect docs deployment (Vercel) to custom domain.
-3. Configure wildcard DNS (`*.portly.dev`) to your tunnel routing target.
+2. Connect docs deployment on Cloudflare Pages.
+3. Configure wildcard DNS (`*.yourdomain.com`) only if you run your own tunnel routing target.
 4. Set SSL/TLS mode to Full (strict).
 
 ## ◆ Security Notes
@@ -155,7 +157,7 @@ For branded links like `https://cool-cat.portly.dev`:
 
 - Update version in `package.json`
 - Publish to npm
-- Deploy docs-site to Vercel
+- Deploy docs-site to Cloudflare Pages
 - Point domain/DNS through Cloudflare
 
 ## ◆ License

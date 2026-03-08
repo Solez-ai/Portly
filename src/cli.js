@@ -48,7 +48,7 @@ async function run(argv = process.argv) {
     .description('Zero-config localhost tunnel for developers')
     .argument('[port]', 'Port to expose manually')
     .option('--name <subdomain>', 'Custom tunnel subdomain')
-    .option('--host <host>', 'Optional host base for display URL', 'portly.dev')
+    .option('--host <host>', 'Optional host base for display URL (branding only)')
     .action(async (portArg, options) => {
       printHeader();
 
@@ -67,12 +67,16 @@ async function run(argv = process.argv) {
         });
         spinner.succeed('Tunnel established');
 
-        const prettyUrl = `https://${tunnelName}.${options.host}`;
+        const publicUrl = options.host ? `https://${tunnelName}.${options.host}` : tunnelHandle.url;
 
         info(`Tunnel endpoint (provider): ${tunnelHandle.url}`);
-        printUrl(prettyUrl);
+        if (options.host && options.host.endsWith('.pages.dev')) {
+          info('Note: Cloudflare Pages does not support wildcard tunnel subdomains by default.');
+          info('The provider URL above is the guaranteed reachable tunnel URL.');
+        }
+        printUrl(publicUrl);
         info('Scan with your phone:\n');
-        renderQRCode(prettyUrl);
+        renderQRCode(publicUrl);
         info('\nPress CTRL+C to stop');
 
         const shutdown = (reason) => {
