@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portly Install | Setup Guide</title>
+  <meta name="description" content="Install and run Portly quickly using npx or global npm install." />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Sora:wght@600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/styles.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="/index.html">
+        <img src="/assets/logo.png" alt="Portly logo" />
+        <span>Portly</span>
+      </a>
+      <nav class="links">
+        <a href="/index.html">Home</a>
+        <a href="/docs.html">Docs</a>
+        <a class="active" href="/install.html">CLI Install</a>
+        <a href="/examples.html">Examples</a>
+        <a href="/github.html">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="section reveal">
+      <h1>CLI Install</h1>
+      <p>Portly supports direct usage via <code>npx</code> or optional global installation.</p>
+    </section>
+
+    <section class="section reveal">
+      <h2>Prerequisites</h2>
+      <div class="grid">
+        <article class="card"><h3>Node.js</h3><p>Node 18+ is recommended for current dependencies and runtime behavior.</p></article>
+        <article class="card"><h3>NPM Access</h3><p>Install from npm registry and run from any terminal environment.</p></article>
+        <article class="card"><h3>Running App</h3><p>Start your local dev server before executing Portly auto-detection mode.</p></article>
+      </div>
+    </section>
+
+    <section class="section reveal">
+      <h2>Quick Start</h2>
+      <pre class="cli-block">npx portly</pre>
+      <p>Auto-detect mode scans common development ports and opens the first active target.</p>
+    </section>
+
+    <section class="section reveal">
+      <h2>Global Install</h2>
+      <pre class="cli-block">npm install -g portly
+portly</pre>
+      <p>Useful for daily use without prefixing with <code>npx</code>.</p>
+    </section>
+
+    <section class="section reveal">
+      <h2>Project Setup (Local Development)</h2>
+      <pre class="cli-block">git clone https://github.com/your-org/portly.git
+cd portly
+npm install
+npm start</pre>
+      <p>Use this setup when contributing code, editing docs, or preparing package releases.</p>
+    </section>
+
+    <section class="section reveal">
+      <h2>Serve Documentation Site</h2>
+      <pre class="cli-block">npm run docs:serve</pre>
+      <p>Runs static docs site locally at <code>http://localhost:4173</code>.</p>
+    </section>
+  </main>
+
+  <footer class="footer page-shell">
+    <strong>Portly Install</strong> • Fast setup for local and CI workflows.
+  </footer>
+
+  <script src="/assets/app.js"></script>
+</body>
+</html>

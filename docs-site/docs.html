@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portly Docs | Complete CLI Guide</title>
+  <meta name="description" content="Detailed Portly documentation for setup, commands, architecture, and domain routing." />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Sora:wght@600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/styles.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="/index.html">
+        <img src="/assets/logo.png" alt="Portly logo" />
+        <span>Portly</span>
+      </a>
+      <nav class="links">
+        <a href="/index.html">Home</a>
+        <a class="active" href="/docs.html">Docs</a>
+        <a href="/install.html">CLI Install</a>
+        <a href="/examples.html">Examples</a>
+        <a href="/github.html">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="section reveal">
+      <h1>Documentation</h1>
+      <p>
+        Portly is a developer CLI that exposes localhost to the public internet using a tunnel provider. This reference covers
+        command syntax, internal flow, behavior guarantees, and deployment recommendations.
+      </p>
+    </section>
+
+    <section class="section reveal">
+      <h2>CLI Commands</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Command</th><th>Description</th><th>Result</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>npx portly</code></td><td>Auto-detect a running local server from common ports.</td><td>Starts tunnel and prints public URL.</td></tr>
+            <tr><td><code>npx portly 3000</code></td><td>Use manual port selection.</td><td>Bypasses scan, tunnels explicit port.</td></tr>
+            <tr><td><code>npx portly 3000 --name samin</code></td><td>Use manual port and custom subdomain.</td><td>Requests named tunnel from provider.</td></tr>
+            <tr><td><code>npx portly --host portly.dev</code></td><td>Customize display host branding.</td><td>Printed URL follows brand domain.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section reveal">
+      <h2>Port Detection Strategy</h2>
+      <p>When no port is provided, Portly probes this default list in order:</p>
+      <pre class="cli-block">3000, 5173, 8080, 8000, 4200, 4000, 5000</pre>
+      <p>
+        Each port receives an HTTP probe against <code>http://127.0.0.1:&lt;port&gt;</code>. If a response is returned, Portly marks that
+        port active and attempts a lightweight framework hint by checking headers/body for known signatures.
+      </p>
+    </section>
+
+    <section class="section reveal">
+      <h2>Session Management</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>Manual Termination</h3>
+          <p>CTRL+C cleanly shuts down the active tunnel and exits the process.</p>
+        </article>
+        <article class="card">
+          <h3>Max Duration</h3>
+          <p>Default session timeout is 2 hours from tunnel start.</p>
+        </article>
+        <article class="card">
+          <h3>Inactivity Window</h3>
+          <p>Inactivity monitoring closes the tunnel after 2 hours with no request events.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section reveal">
+      <h2>Internal Flow</h2>
+      <div class="card">
+        <pre class="cli-block">1. User runs command
+2. CLI resolves port (manual or auto-detect)
+3. CLI requests tunnel from LocalTunnel provider
+4. Provider returns live public endpoint
+5. CLI prints branded URL + QR code
+6. Session remains active until closed or timed out</pre>
+      </div>
+    </section>
+
+    <section class="section reveal">
+      <h2>Domain and Cloudflare Setup</h2>
+      <div class="timeline">
+        <article class="card">
+          <h3>1. Register or add your domain to Cloudflare</h3>
+          <p>Use a domain such as <code>portly.dev</code>, then delegate nameservers to Cloudflare.</p>
+        </article>
+        <article class="card">
+          <h3>2. Connect docs site deployment</h3>
+          <p>Deploy <code>docs-site/</code> on Vercel and connect your custom domain in Vercel project settings.</p>
+        </article>
+        <article class="card">
+          <h3>3. Configure wildcard DNS for branded links</h3>
+          <p>Create wildcard records like <code>*.portly.dev</code> based on your tunnel provider routing strategy.</p>
+        </article>
+        <article class="card">
+          <h3>4. Enforce HTTPS</h3>
+          <p>Enable Full (strict) TLS mode in Cloudflare and verify certificates on your endpoint.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer page-shell">
+    <strong>Portly Docs</strong> • Detailed reference for CLI operators and maintainers.
+  </footer>
+
+  <script src="/assets/app.js"></script>
+</body>
+</html>

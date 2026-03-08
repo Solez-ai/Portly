@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portly | Expose Localhost Instantly</title>
+  <meta name="description" content="Portly is a zero-config CLI to expose localhost with one command." />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Sora:wght@600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/styles.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="/index.html">
+        <img src="/assets/logo.png" alt="Portly logo" />
+        <span>Portly</span>
+      </a>
+      <nav class="links">
+        <a class="active" href="/index.html">Home</a>
+        <a href="/docs.html">Docs</a>
+        <a href="/install.html">CLI Install</a>
+        <a href="/examples.html">Examples</a>
+        <a href="/github.html">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="hero reveal">
+      <article class="hero-card">
+        <span class="kicker">ZERO-CONFIG TUNNELING</span>
+        <h1>Expose localhost in seconds with one command.</h1>
+        <p>
+          Portly removes setup overhead from local sharing. Run a single command, detect your running development server,
+          create a secure tunnel, and share instantly with teammates, clients, or QA.
+        </p>
+        <pre class="cli-block">npx portly</pre>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="/install.html">Install CLI</a>
+          <a class="btn btn-subtle" href="/docs.html">Read Documentation</a>
+        </div>
+      </article>
+      <article class="card reveal">
+        <h3>CLI Experience</h3>
+        <pre class="cli-block">⚡ PORTLY
+
+✔ Found server on port 5173 (Vite)
+✔ Creating secure tunnel...
+
+🌍 Public URL
+https://quiet-fox.portly.dev
+
+Scan with your phone:
+[QR CODE]
+
+Press CTRL+C to stop</pre>
+      </article>
+    </section>
+
+    <section class="section">
+      <h2 class="reveal">Why Portly</h2>
+      <p class="reveal">
+        Traditional tunnel tooling often requires accounts, token setup, and multi-step onboarding. Portly ships with an opinionated
+        workflow optimized for speed: detect local server, start tunnel, return shareable URL, and keep terminal output clean.
+      </p>
+      <div class="grid">
+        <article class="card reveal"><h3>One Command</h3><p>`npx portly` is enough for most workflows. No config files required.</p></article>
+        <article class="card reveal"><h3>Smart Port Detection</h3><p>Scans common dev ports and identifies likely framework hints from responses.</p></article>
+        <article class="card reveal"><h3>QR Sharing</h3><p>Generate a terminal QR so mobile devices open your app instantly in one scan.</p></article>
+      </div>
+    </section>
+
+    <section class="section reveal">
+      <h2>Architecture Snapshot</h2>
+      <div class="card">
+        <pre class="cli-block">Developer Terminal
+      │
+      │ npx portly
+      ▼
+Portly CLI
+      │
+      │ wraps
+      ▼
+LocalTunnel Network
+      │
+      ▼
+Public Internet</pre>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer page-shell">
+    <strong>Portly</strong> • MIT Licensed • Brand asset powered by the official Portly logo.
+  </footer>
+
+  <script src="/assets/app.js"></script>
+</body>
+</html>

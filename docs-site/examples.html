@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portly Examples | Usage Patterns</title>
+  <meta name="description" content="Usage examples for Portly including auto scan, fixed ports, and named tunnel sessions." />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Sora:wght@600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/styles.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="/index.html">
+        <img src="/assets/logo.png" alt="Portly logo" />
+        <span>Portly</span>
+      </a>
+      <nav class="links">
+        <a href="/index.html">Home</a>
+        <a href="/docs.html">Docs</a>
+        <a href="/install.html">CLI Install</a>
+        <a class="active" href="/examples.html">Examples</a>
+        <a href="/github.html">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="section reveal">
+      <h1>Examples</h1>
+      <p>Real command patterns for development teams, demos, QA sessions, and stakeholder sharing.</p>
+    </section>
+
+    <section class="section reveal">
+      <h2>Auto Detect Local Dev Server</h2>
+      <pre class="cli-block">npx portly</pre>
+      <p>Best for Vite, Next.js, and common local stacks using known default ports.</p>
+    </section>
+
+    <section class="section reveal">
+      <h2>Tunnel a Specific Port</h2>
+      <pre class="cli-block">npx portly 3000</pre>
+      <p>Bypass detection and expose the exact service port you select.</p>
+    </section>
+
+    <section class="section reveal">
+      <h2>Request a Named Session</h2>
+      <pre class="cli-block">npx portly 3000 --name samin</pre>
+      <p>Request stable branding for demos and easier verbal sharing during calls.</p>
+    </section>
+
+    <section class="section reveal">
+      <h2>Branded Display Domain</h2>
+      <pre class="cli-block">npx portly --host portly.dev</pre>
+      <p>Prints URLs in your preferred host format while still running through the active provider endpoint.</p>
+    </section>
+
+    <section class="section reveal">
+      <h2>Sample Output</h2>
+      <article class="card">
+        <pre class="cli-block">⚡ PORTLY
+
+✔ Found server on port 3000 (Next.js)
+✔ Tunnel established
+
+Tunnel endpoint (provider): https://samin.loca.lt
+
+🌍 Public URL
+https://samin.portly.dev
+
+Scan with your phone:
+[QR CODE]
+
+Press CTRL+C to stop</pre>
+      </article>
+    </section>
+  </main>
+
+  <footer class="footer page-shell">
+    <strong>Portly Examples</strong> • Practical command recipes for fast sharing.
+  </footer>
+
+  <script src="/assets/app.js"></script>
+</body>
+</html>

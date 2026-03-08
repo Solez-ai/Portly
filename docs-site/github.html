@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portly GitHub | Repository Guide</title>
+  <meta name="description" content="Repository structure and contribution workflow for Portly CLI and docs." />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Sora:wght@600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/styles.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="/index.html">
+        <img src="/assets/logo.png" alt="Portly logo" />
+        <span>Portly</span>
+      </a>
+      <nav class="links">
+        <a href="/index.html">Home</a>
+        <a href="/docs.html">Docs</a>
+        <a href="/install.html">CLI Install</a>
+        <a href="/examples.html">Examples</a>
+        <a class="active" href="/github.html">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="section reveal">
+      <h1>GitHub Repository</h1>
+      <p>Organize Portly for clarity and contributor speed. Keep CLI and documentation in one maintainable repository.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="https://github.com/your-org/portly">Open Repository</a>
+      </div>
+    </section>
+
+    <section class="section reveal">
+      <h2>Recommended Repository Layout</h2>
+      <article class="card">
+        <pre class="cli-block">portly/
+├── bin/
+│   └── portly.js
+├── src/
+│   ├── cli.js
+│   ├── portScanner.js
+│   ├── tunnel.js
+│   ├── qr.js
+│   └── ui.js
+├── utils/
+│   └── nameGenerator.js
+├── docs-site/
+│   ├── index.html
+│   ├── docs.html
+│   ├── install.html
+│   ├── examples.html
+│   ├── github.html
+│   └── assets/
+├── README.md
+├── LICENSE
+└── package.json</pre>
+      </article>
+    </section>
+
+    <section class="section reveal">
+      <h2>Contribution Workflow</h2>
+      <div class="timeline">
+        <article class="card"><h3>1. Fork + Branch</h3><p>Create focused branches for each feature or fix.</p></article>
+        <article class="card"><h3>2. Implement + Test</h3><p>Run local smoke tests for CLI output and docs pages.</p></article>
+        <article class="card"><h3>3. Pull Request</h3><p>Include issue references, before/after behavior, and screenshots for docs changes.</p></article>
+        <article class="card"><h3>4. Release</h3><p>Tag versions and publish package updates to npm with matching changelog notes.</p></article>
+      </div>
+    </section>
+
+    <section class="section reveal">
+      <h2>Branding Policy</h2>
+      <p>
+        The official Portly logo is used consistently across README, docs header, favicon, and release assets to maintain
+        clear visual identity.
+      </p>
+    </section>
+  </main>
+
+  <footer class="footer page-shell">
+    <strong>Portly GitHub</strong> • Source of truth for releases, docs, and contributions.
+  </footer>
+
+  <script src="/assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+{
+  "name": "@solez-ai/portly",
+  "version": "1.0.1",
+  "description": "Zero-config localhost tunnel CLI for developers.",
+  "license": "MIT",
+  "bin": {
+    "portly": "bin/portly.js"
+  },
+  "main": "src/cli.js",
+  "files": [
+    "bin",
+    "src",
+    "utils",
+    "docs-site",
+    "logo.png",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "start": "node ./bin/portly.js",
+    "docs:serve": "npx http-server ./docs-site -p 4173",
+    "lint": "node -e \"console.log('No lint configured yet')\""
+  },
+  "keywords": [
+    "tunnel",
+    "localhost",
+    "cli",
+    "developer-tools",
+    "localtunnel",
+    "portly"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "axios": "^1.8.2",
+    "chalk": "^4.1.2",
+    "commander": "^13.1.0",
+    "localtunnel": "^2.0.2",
+    "ora": "^5.4.1",
+    "qrcode-terminal": "^0.12.0"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
