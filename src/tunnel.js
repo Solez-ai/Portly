@@ -14,6 +14,7 @@ async function createTunnel({ port, subdomain, retries = 3, retryDelayMs = 1500 
 
       let closed = false;
       let closeReason = null;
+      let runtimeError = null;
       const startedAt = Date.now();
       let lastActivityAt = Date.now();
 
@@ -31,6 +32,14 @@ async function createTunnel({ port, subdomain, retries = 3, retryDelayMs = 1500 
 
       tunnel.on('request', () => {
         lastActivityAt = Date.now();
+      });
+
+      // LocalTunnel may emit runtime 'error' events after initial connect.
+      // Registering this handler prevents an unhandled error crash and allows
+      // the CLI to close/reconnect gracefully.
+      tunnel.on('error', (err) => {
+        runtimeError = err;
+        closeSafely(`provider error: ${err && err.message ? err.message : 'unknown error'}`);
       });
 
       const monitor = setInterval(() => {
@@ -54,6 +63,7 @@ async function createTunnel({ port, subdomain, retries = 3, retryDelayMs = 1500 
         url: tunnel.url,
         close: closeSafely,
         getCloseReason: () => closeReason,
+        getLastError: () => runtimeError,
         tunnel
       };
     } catch (error) {

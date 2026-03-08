@@ -281,6 +281,13 @@ async function startTunnelFlow(portArg, options, mode = 'start') {
       clearCurrent();
       process.exit(0);
     });
+
+    tunnelHandle.tunnel.on('error', (err) => {
+      if (!options.quiet && !options.json) {
+        error(`Tunnel runtime error: ${err && err.message ? err.message : 'unknown error'}`);
+        info('Portly will attempt to recover based on reconnect settings.');
+      }
+    });
   };
 
   await establishTunnel();
