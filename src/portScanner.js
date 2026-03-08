@@ -79,6 +79,23 @@ function detectRiskFlags(body) {
   return flags;
 }
 
+function computeConfidence({ port, framework, status, headers }) {
+  const contentType = String((headers && headers['content-type']) || '').toLowerCase();
+  let score = 0;
+
+  if (framework && framework !== 'Unknown') score += 100;
+  if (DEFAULT_PORTS.includes(port)) score += 30;
+  if (status >= 200 && status < 300) score += 25;
+  if (status >= 300 && status < 400) score += 10;
+  if (contentType.includes('text/html')) score += 12;
+  if (contentType.includes('application/json')) score += 6;
+  if (port >= 49152 && framework === 'Unknown') score -= 35;
+  if (status >= 400 && framework === 'Unknown') score -= 45;
+  if (port < 1024 && !DEFAULT_PORTS.includes(port)) score -= 20;
+
+  return score;
+}
+
 async function probePort(port, timeoutMs = 900) {
   const url = `http://127.0.0.1:${port}`;
 
@@ -89,14 +106,26 @@ async function probePort(port, timeoutMs = 900) {
       maxRedirects: 0
     });
 
+    const framework = detectFramework(response.headers, response.data);
+    const status = response.status;
+    const headers = response.headers || {};
+    const confidence = computeConfidence({
+      port,
+      framework,
+      status,
+      headers
+    });
+
     return {
       active: true,
       port,
       url,
-      framework: detectFramework(response.headers, response.data),
-      status: response.status,
+      framework,
+      status,
       riskFlags: detectRiskFlags(response.data),
-      headers: response.headers || {}
+      headers,
+      confidence,
+      likelyDevApp: confidence >= 40
     };
   } catch (error) {
     return {
@@ -106,6 +135,8 @@ async function probePort(port, timeoutMs = 900) {
       framework: null,
       status: null,
       riskFlags: [],
+      confidence: -999,
+      likelyDevApp: false,
       error: error.code || error.message
     };
   }
@@ -126,7 +157,7 @@ async function detectRunningApps({ includeAllListening = true, timeoutMs = 900 }
     if (probe.active) results.push(probe);
   }
 
-  return results;
+  return results.sort((a, b) => b.confidence - a.confidence);
 }
 
 module.exports = {

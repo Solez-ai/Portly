@@ -63,6 +63,29 @@ function applyPortPolicies(targets, allowlistPorts, denylistPorts) {
   });
 }
 
+function pickBestTargetOrPrompt(targets, options) {
+  const likely = targets.filter((t) => t.likelyDevApp);
+  const pool = likely.length ? likely : targets;
+  const sorted = [...pool].sort((a, b) => b.confidence - a.confidence);
+  const best = sorted[0];
+  const runnerUp = sorted[1];
+
+  if (!runnerUp) return best;
+
+  const clearWinner =
+    best.framework !== 'Unknown' &&
+    runnerUp.framework === 'Unknown' &&
+    best.confidence - runnerUp.confidence >= 25;
+
+  const veryHighConfidence = best.confidence >= 90 && best.confidence - runnerUp.confidence >= 20;
+
+  if (options.quiet || options.json || clearWinner || veryHighConfidence) {
+    return best;
+  }
+
+  return chooseTarget(sorted.slice(0, 8));
+}
+
 async function resolveTarget({ portArg, options, config }) {
   const explicitPort = resolvePortFromArg(portArg, config);
   const timeoutMs = Number(options.timeout || config.timeoutMs || 900);
@@ -97,11 +120,7 @@ async function resolveTarget({ portArg, options, config }) {
     throw new Error('No running local server detected after scanning listening ports.');
   }
 
-  if (options.json) {
-    return targets[0];
-  }
-
-  return chooseTarget(targets);
+  return pickBestTargetOrPrompt(targets, options);
 }
 
 async function checkLocalHealth(target, timeoutMs, json) {
