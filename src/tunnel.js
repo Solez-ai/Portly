@@ -1,22 +1,20 @@
-const localtunnel = require('localtunnel');
+const EventEmitter = require('events');
+const { startCloudflaredTunnel } = require('./cloudflared');
 
 const SESSION_TIMEOUT_MS = 2 * 60 * 60 * 1000;
 
-async function createTunnel({ port, subdomain, retries = 3, retryDelayMs = 1500 }) {
+async function createTunnel({ port, retries = 3, retryDelayMs = 1500, verbose = false }) {
   let lastError = null;
 
   for (let attempt = 1; attempt <= retries; attempt += 1) {
     try {
-      const tunnel = await localtunnel({
-        port,
-        subdomain: subdomain || undefined
-      });
+      const started = await startCloudflaredTunnel({ port, verbose });
+      const tunnelEvents = new EventEmitter();
 
       let closed = false;
       let closeReason = null;
       let runtimeError = null;
       const startedAt = Date.now();
-      let lastActivityAt = Date.now();
 
       const closeSafely = (reason) => {
         if (closed) return;
@@ -24,47 +22,35 @@ async function createTunnel({ port, subdomain, retries = 3, retryDelayMs = 1500 
         closeReason = reason;
 
         try {
-          tunnel.close();
+          started.process.kill();
         } catch (_) {
-          // Best effort close.
+          // best effort
         }
       };
 
-      tunnel.on('request', () => {
-        lastActivityAt = Date.now();
-      });
-
-      // LocalTunnel may emit runtime 'error' events after initial connect.
-      // Registering this handler prevents an unhandled error crash and allows
-      // the CLI to close/reconnect gracefully.
-      tunnel.on('error', (err) => {
-        runtimeError = err;
-        closeSafely(`provider error: ${err && err.message ? err.message : 'unknown error'}`);
-      });
-
       const monitor = setInterval(() => {
-        const now = Date.now();
-
-        if (now - startedAt >= SESSION_TIMEOUT_MS) {
+        if (Date.now() - startedAt >= SESSION_TIMEOUT_MS) {
           closeSafely('session timeout after 2 hours');
-          return;
-        }
-
-        if (now - lastActivityAt >= SESSION_TIMEOUT_MS) {
-          closeSafely('inactive for 2 hours');
         }
       }, 15_000);
 
-      tunnel.on('close', () => {
+      started.emitter.on('error', (err) => {
+        runtimeError = err;
+        tunnelEvents.emit('error', err);
+        closeSafely(`provider error: ${err && err.message ? err.message : 'unknown error'}`);
+      });
+
+      started.emitter.on('close', () => {
         clearInterval(monitor);
+        tunnelEvents.emit('close');
       });
 
       return {
-        url: tunnel.url,
+        url: started.url,
         close: closeSafely,
         getCloseReason: () => closeReason,
         getLastError: () => runtimeError,
-        tunnel
+        tunnel: tunnelEvents
       };
     } catch (error) {
       lastError = error;
@@ -74,7 +60,7 @@ async function createTunnel({ port, subdomain, retries = 3, retryDelayMs = 1500 
     }
   }
 
-  throw lastError || new Error('Unable to create tunnel.');
+  throw lastError || new Error('Unable to create tunnel with cloudflared.');
 }
 
 module.exports = {

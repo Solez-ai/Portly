@@ -12,7 +12,6 @@ const {
 const { detectRunningApps, probePort } = require('./portScanner');
 const { createTunnel } = require('./tunnel');
 const { renderQRCode } = require('./qr');
-const { generateName } = require('../utils/nameGenerator');
 const { chooseTarget, confirmAction } = require('./prompt');
 const { loadConfig } = require('./config');
 const { copyToClipboard } = require('./clipboard');
@@ -203,7 +202,9 @@ async function startTunnelFlow(portArg, options, mode = 'start') {
     }
   }
 
-  const tunnelName = options.name || generateName();
+  if (options.name && !options.quiet && !options.json) {
+    info('Note: quick Cloudflare tunnels ignore custom subdomain names.');
+  }
   let tunnelHandle;
   let stopping = false;
 
@@ -212,14 +213,14 @@ async function startTunnelFlow(portArg, options, mode = 'start') {
 
     tunnelHandle = await createTunnel({
       port: target.port,
-      subdomain: tunnelName,
       retries: config.reconnectAttempts || 3,
-      retryDelayMs: config.reconnectDelayMs || 1500
+      retryDelayMs: config.reconnectDelayMs || 1500,
+      verbose: Boolean(options.verbose)
     });
 
     if (spinner) spinner.succeed('Tunnel established');
 
-    const url = options.host ? `https://${tunnelName}.${options.host}` : tunnelHandle.url;
+    const url = tunnelHandle.url;
     const reachable = await checkPublicReachability(tunnelHandle.url, options.json);
 
     const session = {
@@ -239,9 +240,9 @@ async function startTunnelFlow(portArg, options, mode = 'start') {
 
     if (!options.json) {
       info(`Tunnel endpoint (provider): ${tunnelHandle.url}`);
-      if (options.host && options.host.endsWith('.pages.dev')) {
-        info('Note: Cloudflare Pages does not support wildcard tunnel subdomains by default.');
-        info('The provider URL above is the guaranteed reachable tunnel URL.');
+      if (options.host) {
+        info('Note: --host branding is not applied for Cloudflare quick tunnels.');
+        info('Using the provider-issued trycloudflare.com URL instead.');
       }
       printUrl(url);
       info('Scan with your phone:\n');

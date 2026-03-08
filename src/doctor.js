@@ -1,6 +1,7 @@
 const axios = require('axios');
 const os = require('os');
 const { getListeningPorts } = require('./portScanner');
+const { ensureCloudflared } = require('./cloudflared');
 
 async function runDoctor() {
   const result = {
@@ -17,15 +18,30 @@ async function runDoctor() {
   });
 
   try {
-    const res = await axios.get('https://loca.lt', { timeout: 4000, validateStatus: () => true });
+    const binary = await ensureCloudflared();
     result.checks.push({
-      id: 'localtunnel-reachability',
-      ok: res.status < 500,
-      detail: `HTTP ${res.status} from loca.lt`
+      id: 'cloudflared-availability',
+      ok: true,
+      detail: `cloudflared available at ${binary}`
     });
   } catch (error) {
     result.checks.push({
-      id: 'localtunnel-reachability',
+      id: 'cloudflared-availability',
+      ok: false,
+      detail: error.message
+    });
+  }
+
+  try {
+    const res = await axios.get('https://trycloudflare.com', { timeout: 5000, validateStatus: () => true });
+    result.checks.push({
+      id: 'trycloudflare-reachability',
+      ok: res.status < 500,
+      detail: `HTTP ${res.status} from trycloudflare.com`
+    });
+  } catch (error) {
+    result.checks.push({
+      id: 'trycloudflare-reachability',
       ok: false,
       detail: error.code || error.message
     });

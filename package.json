@@ -1,6 +1,6 @@
 {
   "name": "@solez-ai/portly",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Zero-config localhost tunnel CLI for developers.",
   "license": "MIT",
   "bin": {
@@ -32,7 +32,7 @@
     "localhost",
     "cli",
     "developer-tools",
-    "localtunnel",
+    "cloudflared",
     "portly"
   ],
   "engines": {
@@ -42,7 +42,6 @@
     "axios": "^1.8.2",
     "chalk": "^4.1.2",
     "commander": "^13.1.0",
-    "localtunnel": "^2.0.2",
     "ora": "^5.4.1",
     "qrcode-terminal": "^0.12.0"
   },

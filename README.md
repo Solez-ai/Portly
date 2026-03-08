@@ -17,6 +17,8 @@ npx @solez-ai/portly
 - Multi-app selection when several local servers are detected
 - Local health checks before tunnel startup
 - Public reachability checks after tunnel startup
+- Uses Cloudflare Quick Tunnel (`cloudflared`) instead of LocalTunnel
+- Auto-installs `cloudflared` binary if missing (Windows/Linux x64/arm64)
 - Tunnel creation retry + auto-reconnect on drop
 - Safer defaults: `--confirm`, auth/admin warning detection
 - Port policy controls: `--allowlist`, `--denylist`
@@ -75,7 +77,7 @@ portly --confirm
 portly --copy
 portly --allowlist 3000,5173
 portly --denylist 9229
-portly --host yourdomain.com
+portly --copy
 portly --no-reconnect
 ```
 
@@ -91,7 +93,6 @@ Portly merges config from:
 
 Supported keys include:
 - `defaultPort`
-- `host`
 - `timeoutMs`
 - `allowlistPorts`
 - `denylistPorts`
@@ -117,3 +118,4 @@ npm run docs:serve
 ## License
 
 MIT License. See [LICENSE](./LICENSE).
+
