@@ -1,6 +1,6 @@
 {
   "name": "@solez-ai/portly",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Zero-config localhost tunnel CLI for developers.",
   "license": "MIT",
   "bin": {
@@ -11,6 +11,7 @@
     "bin",
     "src",
     "utils",
+    "scripts",
     "docs-site",
     "logo.png",
     "README.md",
@@ -21,7 +22,9 @@
   },
   "scripts": {
     "start": "node ./bin/portly.js",
+    "share": "node ./bin/portly.js",
     "docs:serve": "npx http-server ./docs-site -p 4173",
+    "hooks:install": "node ./scripts/installGitHooks.js",
     "lint": "node -e \"console.log('No lint configured yet')\""
   },
   "keywords": [

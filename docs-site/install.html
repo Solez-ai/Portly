@@ -14,10 +14,7 @@
 <body>
   <header class="nav">
     <div class="nav-inner">
-      <a class="brand" href="/index.html">
-        <img src="/assets/logo.png" alt="Portly logo" />
-        <span>Portly</span>
-      </a>
+      <a class="brand" href="/index.html"><img src="/assets/logo.png" alt="Portly logo" /><span>Portly</span></a>
       <nav class="links">
         <a href="/index.html">Home</a>
         <a href="/docs.html">Docs</a>
@@ -31,51 +28,63 @@
   <main class="page-shell">
     <section class="section reveal">
       <h1>CLI Install</h1>
-      <p>Portly supports direct usage via <code>npx</code> or optional global installation.</p>
-    </section>
-
-    <section class="section reveal">
-      <h2>Prerequisites</h2>
-      <div class="grid">
-        <article class="card"><h3>Node.js</h3><p>Node 18+ is recommended for current dependencies and runtime behavior.</p></article>
-        <article class="card"><h3>NPM Access</h3><p>Install from npm registry and run from any terminal environment.</p></article>
-        <article class="card"><h3>Running App</h3><p>Start your local dev server before executing Portly auto-detection mode.</p></article>
-      </div>
+      <p>Install Portly from npm and use the command blocks below with one-click copy and platform tabs.</p>
     </section>
 
     <section class="section reveal">
       <h2>Quick Start</h2>
-      <pre class="cli-block">npx @solez-ai/portly</pre>
-      <p>Auto-detect mode scans common development ports and opens the first active target.</p>
-    </section>
+      <div data-tab-group class="card" style="padding:1rem;">
+        <div class="btn-row" style="margin-bottom:0.8rem;">
+          <button class="btn btn-subtle" data-tab-btn="windows">Windows</button>
+          <button class="btn btn-subtle" data-tab-btn="maclinux">macOS/Linux</button>
+        </div>
 
-    <section class="section reveal">
-      <h2>Global Install</h2>
-      <pre class="cli-block">npm install -g @solez-ai/portly
-portly</pre>
-      <p>Useful for daily use without prefixing with <code>npx</code>.</p>
+        <div data-tab-panel="windows">
+          <div class="copy-row"><button class="btn btn-subtle" data-copy-target="cmd-win">Copy</button></div>
+          <pre class="cli-block" id="cmd-win">npx @solez-ai/portly
+npm install -g @solez-ai/portly
+portly doctor</pre>
+        </div>
+
+        <div data-tab-panel="maclinux" hidden>
+          <div class="copy-row"><button class="btn btn-subtle" data-copy-target="cmd-unix">Copy</button></div>
+          <pre class="cli-block" id="cmd-unix">npx @solez-ai/portly
+npm install -g @solez-ai/portly
+portly doctor</pre>
+        </div>
+      </div>
     </section>
 
     <section class="section reveal">
       <h2>Project Setup (Local Development)</h2>
-      <pre class="cli-block">git clone https://github.com/Solez-ai/Portly.git
-cd portly
+      <div class="copy-row"><button class="btn btn-subtle" data-copy-target="clone-cmd">Copy</button></div>
+      <pre class="cli-block" id="clone-cmd">git clone https://github.com/Solez-ai/Portly.git
+cd Portly/portly
 npm install
-npm start</pre>
-      <p>Use this setup when contributing code, editing docs, or preparing package releases.</p>
+npm run share</pre>
     </section>
 
     <section class="section reveal">
-      <h2>Serve Documentation Site</h2>
-      <pre class="cli-block">npm run docs:serve</pre>
-      <p>Runs static docs site locally at <code>http://localhost:4173</code>.</p>
+      <h2>Command Presets</h2>
+      <div class="grid">
+        <article class="card"><h3>dev preset</h3><pre class="cli-block">portly dev</pre></article>
+        <article class="card"><h3>demo preset</h3><pre class="cli-block">portly demo</pre></article>
+        <article class="card"><h3>watch mode</h3><pre class="cli-block">portly watch</pre></article>
+      </div>
+    </section>
+
+    <section class="section reveal">
+      <h2>Extra Setup Helpers</h2>
+      <div class="copy-row"><button class="btn btn-subtle" data-copy-target="helpers">Copy</button></div>
+      <pre class="cli-block" id="helpers">npm run hooks:install
+npm run docs:serve
+portly list
+portly stop</pre>
+      <p><code>hooks:install</code> creates a free local pre-push hook for lint + doctor checks.</p>
     </section>
   </main>
 
-  <footer class="footer page-shell">
-    <strong>Portly Install</strong> • Fast setup for local and CI workflows.
-  </footer>
-
+  <footer class="footer page-shell"><strong>Portly Install</strong> • Fast setup for local and CI workflows.</footer>
   <script src="/assets/app.js"></script>
 </body>
 </html>

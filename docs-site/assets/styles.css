@@ -253,6 +253,18 @@ th {
   font-size: 0.9rem;
 }
 
+.copy-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.45rem;
+}
+
+[data-tab-btn].active {
+  background: linear-gradient(180deg, var(--primary-soft), var(--primary));
+  color: #f4fbff;
+  border-color: transparent;
+}
+
 .timeline {
   border-left: 2px solid rgba(24, 86, 139, 0.3);
   padding-left: 1rem;

@@ -3,163 +3,117 @@
 [![MIT License](https://img.shields.io/badge/License-MIT-0b4f8a.svg)](./LICENSE)
 ![Node](https://img.shields.io/badge/Node-%3E%3D18-125e3a.svg)
 ![CLI](https://img.shields.io/badge/Type-Developer%20CLI-1e3758.svg)
-![Status](https://img.shields.io/badge/MVP-Ready-0f6a45.svg)
 
-Portly is a zero-config localhost sharing CLI.
-
-Run one command and get a public HTTPS URL for your running dev server.
+Portly is a zero-config localhost sharing CLI with smarter detection, safer defaults, and script-friendly automation.
 
 ```bash
 npx @solez-ai/portly
 ```
 
-## ◆ Core Promise
+## Features
 
-- `1` command
-- `0` setup
-- instant shareable URL + terminal QR code
+- Scan all listening local ports (not only a fixed short list)
+- Framework fingerprinting from headers + HTML signatures
+- Multi-app selection when several local servers are detected
+- Local health checks before tunnel startup
+- Public reachability checks after tunnel startup
+- Tunnel creation retry + auto-reconnect on drop
+- Safer defaults: `--confirm`, auth/admin warning detection
+- Port policy controls: `--allowlist`, `--denylist`
+- CLI UX modes: `--json`, `--quiet`, `--verbose`, `--copy`
+- Diagnostics command: `portly doctor`
+- Session commands: `portly list`, `portly stop`
+- Watch mode: `portly watch`
+- Preset aliases: `portly dev`, `portly demo`
+- Local config support (`.portlyrc`, `.portlyrc.json`, `~/.portlyrc.json`)
+- NPM helper script: `npm run share`
+- Optional git hook installer: `npm run hooks:install`
 
-## ◆ Features
-
-- Automatic port detection (`3000`, `5173`, `8080`, `8000`, `4200`, `4000`, `5000`)
-- Manual port override (`npx @solez-ai/portly 3000`)
-- Named sessions (`npx @solez-ai/portly 3000 --name samin`)
-- Clean CLI output with status states
-- QR code generation for mobile opening
-- Session auto timeout (2 hours)
-- Inactivity timeout (2 hours)
-- MIT license
-
-## ◆ Example Output
-
-```text
-⚡ PORTLY
-
-✔ Found server on port 5173 (Vite)
-✔ Tunnel established
-
-Tunnel endpoint (provider): https://quiet-fox.loca.lt
-
-🌍 Public URL
-https://quiet-fox.loca.lt
-
-Scan with your phone:
-[QR CODE]
-
-Press CTRL+C to stop
-```
-
-## ◆ Installation
-
-### Use without installing
-
-```bash
-npx @solez-ai/portly
-```
-
-### Global install
+## Install
 
 ```bash
 npm install -g @solez-ai/portly
-portly
 ```
 
-## ◆ CLI Usage
+Or run instantly:
 
 ```bash
-# Auto-detect local server
 npx @solez-ai/portly
+```
+
+## Core Commands
+
+```bash
+# Start tunnel
+portly
 
 # Manual port
-npx @solez-ai/portly 3000
+portly 3000
 
-# Manual port + named tunnel
-npx @solez-ai/portly 3000 --name samin
+# Watch mode
+portly watch
 
-# Branded display host
-npx @solez-ai/portly --host yourdomain.com
+# Diagnostics
+portly doctor
+
+# Sessions
+portly list
+portly stop
+
+# Presets
+portly dev
+portly demo
 ```
 
-## ◆ Project Structure
+## Useful Options
+
+```bash
+portly --json
+portly --quiet
+portly --verbose
+portly --confirm
+portly --copy
+portly --allowlist 3000,5173
+portly --denylist 9229
+portly --host yourdomain.com
+portly --no-reconnect
+```
+
+## Config
+
+Portly merges config from:
 
 ```text
-portly/
-├── bin/
-│   └── portly.js
-├── src/
-│   ├── cli.js
-│   ├── portScanner.js
-│   ├── tunnel.js
-│   ├── qr.js
-│   └── ui.js
-├── utils/
-│   └── nameGenerator.js
-├── docs-site/
-│   ├── index.html
-│   ├── docs.html
-│   ├── install.html
-│   ├── examples.html
-│   ├── github.html
-│   ├── favicon.png
-│   └── assets/
-│       ├── app.js
-│       ├── logo.png
-│       └── styles.css
-├── logo.png
-├── LICENSE
-├── README.md
-└── package.json
+~/.portlyrc.json
+./.portlyrc
+./.portlyrc.json
 ```
 
-## ◆ Local Development
+Supported keys include:
+- `defaultPort`
+- `host`
+- `timeoutMs`
+- `allowlistPorts`
+- `denylistPorts`
+- `reconnectAttempts`
+- `reconnectDelayMs`
+
+## Docs and Links
+
+- Docs: `https://portly-live.pages.dev`
+- GitHub: `https://github.com/Solez-ai/Portly`
+- npm: `https://www.npmjs.com/package/@solez-ai/portly`
+
+## Local Development
 
 ```bash
+git clone https://github.com/Solez-ai/Portly.git
+cd Portly/portly
 npm install
-npm start
-```
-
-Serve docs locally:
-
-```bash
+npm run share
 npm run docs:serve
 ```
 
-## ◆ Documentation Website
+## License
 
-Premium multi-page docs site is included in `docs-site/`:
-
-- Home
-- Docs
-- CLI Install
-- Examples
-- GitHub
-
-Branding is wired to `logo.png` across nav + favicon + identity sections.
-
-## ◆ Cloudflare + Domain Setup
-
-Docs website: `https://portly-live.pages.dev`
-
-For branded links like `https://cool-cat.yourdomain.com`:
-
-1. Add your domain to Cloudflare.
-2. Connect docs deployment on Cloudflare Pages.
-3. Configure wildcard DNS (`*.yourdomain.com`) only if you run your own tunnel routing target.
-4. Set SSL/TLS mode to Full (strict).
-
-## ◆ Security Notes
-
-- Portly only exposes the selected local port.
-- TLS is handled by tunnel provider.
-- Session timeouts reduce unintended long-running exposure.
-
-## ◆ Release Checklist
-
-- Update version in `package.json`
-- Publish to npm
-- Deploy docs-site to Cloudflare Pages
-- Point domain/DNS through Cloudflare
-
-## ◆ License
-
-Licensed under [MIT](./LICENSE).
+MIT License. See [LICENSE](./LICENSE).
