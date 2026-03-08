@@ -1,6 +1,6 @@
 {
   "name": "@solez-ai/portly",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Zero-config localhost tunnel CLI for developers.",
   "license": "MIT",
   "bin": {
